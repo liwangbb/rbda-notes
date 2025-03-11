@@ -1,2 +1,2 @@
-# A personal learning notes for Real-time Big Data Analytics
+# A personal learning note for Real-time Big Data Analytics
 
