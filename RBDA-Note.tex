@@ -1,0 +1,313 @@
+\documentclass[12pt,a4paper]{report}
+
+% Essential packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+
+% Custom settings
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+% Code listing settings
+\lstset{
+  backgroundcolor=\color{gray!10},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  commentstyle=\color{green!60!black},
+  keywordstyle=\color{blue},
+  stringstyle=\color{purple},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  tabsize=2,
+  title=\lstname,
+  frame=single,
+  framesep=5pt,
+  framexleftmargin=5pt,
+  framexrightmargin=5pt,
+  xleftmargin=15pt,
+}
+
+% Definition environment
+\newmdenv[
+  linecolor=blue!70,
+  backgroundcolor=blue!5,
+  roundcorner=5pt,
+  skipabove=\baselineskip,
+  skipbelow=\baselineskip,
+  innertopmargin=\baselineskip,
+  innerbottommargin=\baselineskip
+]{definition}
+
+% Key concept environment
+\newtcolorbox{keyconcept}{
+  colback=green!5,
+  colframe=green!70!black,
+  fonttitle=\bfseries,
+  title=Key Concept,
+  rounded corners
+}
+
+% Important note environment
+\newtcolorbox{important}{
+  colback=red!5,
+  colframe=red!70!black,
+  fonttitle=\bfseries,
+  title=Important Note,
+  rounded corners
+}
+
+\title{
+  \Huge{\textbf{Real-Time and Big Data Analytics}} \\
+  \vspace{0.5cm}
+  \Large{Course Notes} \\
+  \vspace{0.5cm}
+  \large{Spring 2025}
+}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\chapter{Introduction to Real-Time and Big Data Analytics}
+% Content for Chapter 1 would go here
+
+\chapter{Big Data Storage}
+\section{Definition of Big Data}
+Big Data is when \textbf{the size of the data itself} becomes part of the problem.
+
+\begin{keyconcept}
+One 10 TB hard disk drive (HDD) is less effective than 100 HDDs distributed across 20 computers due to \textbf{CPU limitations} when dealing with big data processing.
+\end{keyconcept}
+
+\section{Big Data Storage Concepts}
+Big Data analytics uses \textbf{highly scalable distributed technologies and frameworks}. To store Big Data datasets, \textbf{often in multiple copies}, innovative storage strategies and technologies have been created to achieve \textbf{cost-effective} and \textbf{highly scalable} storage solutions.
+
+Key concepts we'll explore include:
+\begin{itemize}
+  \item Clusters
+  \item Distributed file systems
+  \item Relational database management systems (RDBMS)
+  \item NoSQL databases
+  \item Sharding
+  \item Replication
+  \item CAP theorem
+  \item ACID
+  \item BASE
+\end{itemize}
+
+\section{Clusters}
+A cluster is a tightly coupled \textbf{collection of servers (``nodes'')}. These servers usually have similar hardware specifications and are \textbf{connected together via a network} to work as a single unit.
+
+Each node in the cluster has its \textbf{own dedicated resources}, such as CPU, memory, and storage.
+
+A cluster can \textbf{execute a job} by \textbf{splitting it into small tasks} and \textbf{distributing their execution onto different computers} that belong to the cluster.
+
+\begin{mdframed}
+Cluster → Racks → Nodes (servers) → CPU, Memory, Storage
+\end{mdframed}
+
+\section{Distributed File Systems}
+A file is \textbf{the most basic unit of storage} to store data.
+
+A file system (FS) is the method of \textbf{organizing files} on a storage device.
+
+A distributed file system (DFS) is a file system that can \textbf{store large files spread across multiple nodes of a cluster}.
+
+\begin{mdframed}
+Examples: Google File System (GFS), Hadoop Distributed File System (HDFS), Amazon S3, and Azure Blob Storage.
+\end{mdframed}
+
+\section{Database Systems for Big Data}
+
+\subsection{Relational Database Management Systems (RDBMS)}
+A relational database management system (RDBMS) is a product that presents a view of data as \textbf{a collection of rows and columns}.
+
+SQL (structured query language) is the standard language for \textbf{querying} and \textbf{maintaining} the database.
+
+A transaction symbolizes \textbf{a unit of work} that is performed against a database, and treated in a \textbf{coherent and reliable way} independent of other transactions.
+
+\subsection{NoSQL Databases}
+A NoSQL database is a \textbf{non-relational database} that provides a mechanism for \textbf{storage and retrieval of data} that is \textbf{highly scalable, fault-tolerant} and specifically designed to house \textbf{semi-structured} and \textbf{unstructured} data.
+
+\begin{mdframed}
+Examples of NoSQL database types:
+\begin{itemize}
+  \item Key-Value stores (e.g., Redis)
+  \item Document stores (e.g., MongoDB)
+  \item Wide-Column stores (e.g., Cassandra)
+  \item Graph databases (e.g., Pregel)
+\end{itemize}
+\end{mdframed}
+
+\section{Distributed Data Management Strategies}
+
+\subsection{Sharding}
+Sharding is the process of \textbf{horizontally partitioning} a large dataset into a collection of smaller, more manageable pieces called \textbf{shards}.
+
+Each shard is stored on a \textbf{separate node}, and is responsible for \textbf{only the data stored on that node}.
+
+All shards share \textbf{the same schema}, but each shard contains a \textbf{subset of the data}.
+
+\subsubsection{How Sharding Works in Practice}
+\begin{enumerate}
+  \item Each shard can \textbf{independently} service reads and writes for the \textbf{specific subset} of data that it is responsible for.
+  \item Depending on the query, data may need to be fetched from \textbf{multiple shards}.
+\end{enumerate}
+
+\begin{keyconcept}
+\textbf{Benefits of Sharding:}
+\begin{itemize}
+  \item Horizontal scalability: Sharding allows for \textbf{scaling out} by adding more nodes to the cluster, which can help to \textbf{distribute the load} and improve performance.
+  \item Sharding provides \textbf{partial tolerance towards failure}.
+\end{itemize}
+\end{keyconcept}
+
+\begin{important}
+\textbf{Concerns of Sharding:}
+\begin{itemize}
+  \item Queries requiring data from multiple shards can be \textbf{slower} and will impose performance penalties.
+  \item To mitigate such performance penalties, \textbf{data locality} keeps commonly accessed data in the same shard.
+\end{itemize}
+\end{important}
+
+\subsection{Replication}
+Replication stores multiple copies of a dataset on multiple nodes.
+
+\subsubsection{Methods of Replication}
+\begin{itemize}
+  \item Master-slave replication
+  \item Peer-to-peer replication
+\end{itemize}
+
+\subsubsection{Master-Slave Replication}
+All data is written to a \textbf{master node}. Once saved, the data is replicated over to multiple \textbf{slave nodes}.
+\begin{itemize}
+  \item \textbf{Write requests}, including insert, update, and delete, occur on the \textbf{master node}.
+  \item \textbf{Read requests} can occur on either the \textbf{master node} or any of the \textbf{slave nodes}.
+\end{itemize}
+
+Master-slave replication is ideal for \textbf{read-intensive loads}. Growing read demands can be managed by \textbf{horizontal scaling} to add more slave nodes.
+
+Writes are \textbf{consistent}:
+\begin{itemize}
+  \item All writes are coordinated by the \textbf{master node}.
+  \item However, \textbf{write performance will suffer} as the amount of writes increases.
+\end{itemize}
+
+If the \textbf{master node fails}:
+\begin{itemize}
+  \item Reads are still possible from the \textbf{slave nodes}.
+  \item Writes are \textbf{not possible} until a new master node is reestablished.
+\end{itemize}
+
+Recovery options:
+\begin{itemize}
+  \item Resurrect the master node from a \textbf{backup}.
+  \item Choose a new master node from the \textbf{slave nodes}.
+\end{itemize}
+
+\subsubsection{Peer-to-Peer Replication}
+All nodes operate at the \textbf{same level}. Each peer is \textbf{equally capable} of handling read and write requests. Each \textbf{write} is copied to \textbf{all peers}.
+
+\begin{important}
+Concern: \textbf{Read/write inconsistency}
+\end{important}
+
+Strategies to address inconsistency:
+\begin{itemize}
+  \item \textbf{Pessimistic concurrency} is a \textbf{proactive} strategy, using \textbf{locking} to ensure that only one update to a record can occur at a time. However, this is \textbf{detrimental to availability} since the database record being updated remains unavailable to other users until the lock is released.
+  \item \textbf{Optimistic concurrency} is a \textbf{reactive} strategy that \textbf{does not use locking}. Instead, it \textbf{allows inconsistency} to occur with knowledge that \textbf{eventually} consistency will be achieved after all updates have propagated.
+\end{itemize}
+
+\subsection{Combined Approaches for Data Distribution}
+\begin{itemize}
+  \item \textbf{Sharding and master-slave replication:} Each node acts both as a \textbf{master} and a \textbf{slave} for \textbf{different shards}.
+  \item \textbf{Sharding and peer-to-peer replication:} Each node contains \textbf{replicas} of two different \textbf{shards}.
+\end{itemize}
+
+\section{Theoretical Foundations and Design Principles}
+
+\subsection{CAP Theorem}
+A distributed system may \textbf{wish} to provide three guarantees:
+\begin{itemize}
+  \item \textbf{C}onsistency: A read from any node results in the \textbf{same, most recently written} data across multiple nodes.
+  \item \textbf{A}vailability: A read/write request will \textbf{always be acknowledged} in the form of a success or failure, regardless of the state of the system.
+  \item \textbf{P}artition tolerance: The database system can \textbf{tolerate communication outages} that split the cluster into multiple silos and can still \textbf{service read/write requests}.
+\end{itemize}
+
+\begin{keyconcept}
+The CAP theorem states that a distributed system can only provide \textbf{two} of the three guarantees at any given time.
+\end{keyconcept}
+
+\subsection{Database Design Principles}
+
+\subsubsection{ACID}
+ACID is a \textbf{traditional} database design principle for \textbf{transaction management}.
+
+\begin{itemize}
+  \item \textbf{A}tomicity: Ensures that all transactions will always succeed or fail \textbf{completely}.
+  \item \textbf{C}onsistency: Ensures that only data that \textbf{conforms to the constraints of the database schema} can be written to the database.
+  \item \textbf{I}solation: Ensures that the results of a transaction are \textbf{not visible} to other transactions until the transaction is committed.
+  \item \textbf{D}urability: Ensures the results of a transaction are \textbf{permanent}, regardless of any system failures.
+\end{itemize}
+
+Traditional databases leverage pessimistic concurrency controls (i.e., locking) to ensure ACID compliance. Database systems providing traditional ACID guarantees choose \textbf{consistency} over \textbf{availability}.
+
+\subsubsection{BASE}
+BASE is a database design principle leveraged by many \textbf{distributed} systems.
+
+\begin{itemize}
+  \item \textbf{B}asically \textbf{A}vailable: The system is \textbf{always available} to service read/write requests, even if the data is not consistent.
+  \item \textbf{S}oft state: The system may be in a \textbf{temporary inconsistent state} at any given time, but will eventually become consistent.
+  \item \textbf{E}ventual consistency: The system will \textbf{eventually become consistent} after all updates have propagated.
+\end{itemize}
+
+When a database supports BASE, it favors \textbf{availability} over \textbf{consistency}. BASE leverages optimistic concurrency by relaxing the strong consistency constraints mandated by the ACID properties.
+
+\subsubsection{ACID vs BASE Comparison}
+ACID ensures \textbf{immediate consistency at the expense of availability} due to record locking. 
+
+BASE emphasizes \textbf{availability over immediate consistency}.
+
+\chapter{Distributed Computing Models}
+% Content for Chapter 3 would go here
+
+\chapter{Real-Time Analytics}
+% Content for Chapter 4 would go here
+
+\chapter{Big Data Visualization}
+% Content for Chapter 5 would go here
+
+\chapter{Case Studies and Applications}
+% Content for Chapter 6 would go here
+
+\appendix
+\chapter{Glossary of Terms}
+% Glossary would go here
+
+\chapter{Important Formulas and Theorems}
+% Formulas and theorems would go here
+
+\end{document}
